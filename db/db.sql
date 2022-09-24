@@ -1,0 +1,22 @@
+DROP DATABASE IF EXISTS tp_sds_xss;
+CREATE DATABASE tp_sds_xss;
+USE tp_sds_xss;
+
+CREATE TABLE IF NOT EXISTS user (
+    id INT NOT NULL AUTO_INCREMENT,
+    userName VARCHAR(255) UNIQUE,
+    `password` VARCHAR(255),
+    PRIMARY KEY id
+)ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+CREATE TABLE IF NOT EXISTS comment (
+    id INT NOT NULL AUTO_INCREMENT,
+    comment VARCHAR(5000) NOT NULL,
+    idUsuario INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(idUsuario) REFERENCES user(id)
+        ON DELETE RESTRICT
+        ON UPDATE RESTRICT
+)ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+INSERT INTO user (userName, 'password') VALUES ('sds', 'sds');
