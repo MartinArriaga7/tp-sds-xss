@@ -8,13 +8,9 @@ $dbUser = getenv("DB_USER");
 $dbPassword = getenv("DB_PASSWORD");
 $dbName = getenv("DB_NAME");
 
-echo $dbHost;
-echo $dbUser;
-echo $dbPassword;
-echo $dbName;
-
-if (mysqli_connect($dbHost, $dbUser, $dbPassword, $dbName)) {
-    $connection->set_charset("utf-8");
+$connection = mysqli_connect($dbHost, $dbUser, $dbPassword, $dbName);
+if ($connection !== false) {
+    $connection->set_charset("utf8"); 
 } else {
     die("Error in database connection");
 }
