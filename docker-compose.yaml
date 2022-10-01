@@ -12,7 +12,7 @@ services:
       - "9906:3306"
     networks:
       - app-network
-  
+
   app:
     build: .
     container_name: web-app
@@ -30,7 +30,7 @@ services:
       - db:db
     networks:
       - app-network
-  
+
   nginx:
     image: nginx:alpine
     container_name: nginx

@@ -14,6 +14,3 @@ if ($connection !== false) {
 } else {
     die("Error in database connection");
 }
-
-
-
