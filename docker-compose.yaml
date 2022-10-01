@@ -5,7 +5,7 @@ services:
     image: mysql:5.7
     command: --init-file /data/db/db.sql --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_ROOT_PASSWORD: prueba
     volumes:
       - ./db/db.sql:/data/db/db.sql
     ports:
@@ -21,7 +21,7 @@ services:
     environment:
       DB_HOST: db
       DB_USER: root
-      DB_PASSWORD: 12345678
+      DB_PASSWORD: prueba
       DB_NAME: sds
     ports:
       - "3000:80"
