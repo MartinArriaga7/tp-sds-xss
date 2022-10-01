@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   db:
     container_name: db
@@ -11,23 +11,37 @@ services:
     ports:
       - "9906:3306"
     networks:
-      - default
+      - app-network
   
-  web:
+  app:
+    build: .
     container_name: web-app
+    working_dir: /var/www
     depends_on:
       - db
-    build: .
     environment:
       DB_HOST: db
       DB_USER: root
       DB_PASSWORD: prueba
       DB_NAME: sds
-    ports:
-      - "3000:80"
     volumes:
-      - ./:/var/www/html/tpsds
+      - ./:/var/www
     links:
       - db:db
     networks:
-      - default
+      - app-network
+  
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - 3000:80
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
