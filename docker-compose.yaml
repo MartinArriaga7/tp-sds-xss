@@ -21,7 +21,7 @@ services:
       - db
     environment:
       DB_HOST: db
-      DB_USER: root
+      DB_USER: prueba
       DB_PASSWORD: prueba
       DB_NAME: sds
     volumes:

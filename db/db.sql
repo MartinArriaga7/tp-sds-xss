@@ -1,8 +1,8 @@
+GRANT ALL ON *.* to 'prueba'@'%' IDENTIFIED BY 'prueba';
+
 DROP DATABASE IF EXISTS sds;
 CREATE DATABASE sds;
 USE sds;
-
-GRANT ALL ON sds.* to 'root'@'%' IDENTIFIED BY 'prueba';
 
 CREATE TABLE IF NOT EXISTS user (
     id INT NOT NULL AUTO_INCREMENT,
