@@ -1,0 +1,33 @@
+version: "3"
+services:
+  db:
+    container_name: db
+    image: mysql:5.7
+    command: --init-file /data/db/db.sql --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: prueba
+    volumes:
+      - ./db/db.sql:/data/db/db.sql
+    ports:
+      - "9906:3306"
+    networks:
+      - default
+  
+  web:
+    container_name: web-app
+    depends_on:
+      - db
+    build: .
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: prueba
+      DB_NAME: sds
+    ports:
+      - "3000:80"
+    volumes:
+      - ./:/var/www/html/tpsds
+    links:
+      - db:db
+    networks:
+      - default
