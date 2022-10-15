@@ -2,39 +2,36 @@
 
 require_once("common.php");
 
+global $connection;
 $error = "";
 if(isset($_POST['submit'])){
-	if(verificar_usuario($_POST['username'],$_POST['password']) === true){
-		$conjunto_resultados = $connection->query("SELECT * FROM user WHERE userName='{$_POST['username']}'");
-		$resultados = array();
-		$resultados[] = $conjunto_resultados->fetch_assoc();
-		if(!empty($resultados[0])){
-			$_SESSION["id_usuario"] = $resultados[0]["id"];
-			header("Location: foro.php");
-			exit;
-		}
+	$userName = htmlspecialchars(strip_tags($_POST['userName']));
+	$password = htmlspecialchars(strip_tags($_POST['password']));
+	$loginResult = verifyLogin($userName, $password, $connection);
+	if (is_null($loginResult)) {
+		$error = 'Usuario o contraseña no válidos';
+	} else {
+		$_SESSION['userId'] = $loginResult;
+		header('Location: foro.php');
+		exit;
 	}
-	$error = "Usuario incorrecto";
 }
-function verificar_usuario($username, $password){
-	global $connection;
+
+function verifyLogin(string $username, string $password, mysqli $connection): int|null{
 	$conjunto_resultados = $connection->query("SELECT * FROM user WHERE userName='{$username}'");
-	$resultados = array();
-	$resultados[] = $conjunto_resultados->fetch_assoc();
-	if(!empty($resultados)){
-		$clave_bd = $resultados[0]["password"];
-		if($password == $clave_bd){
-			return true;
-		}
+	$resultados = $conjunto_resultados->fetch_assoc();
+	$foundUserName = isset($resultados['id']) && isset($resultados['userName']) && isset($resultados['password']);
+	if ($foundUserName && $password === $resultados['password']) {
+		return $resultados['id'];
 	}
-	return false;
+	return null;
 }
 
 ?>
 
 <html>
 <head>
-<title>Foro</title>
+<title>Login</title>
 <!-- Custom Theme files -->
 <link href="styles/style.css" rel="stylesheet" type="text/css" media="all"/>
 <!-- for-mobile-apps -->
@@ -49,30 +46,29 @@ function verificar_usuario($username, $password){
 </head>
 <body>
 <!--header start here-->
-<h1>Ingreso a Foro</h1>
+<h1>Ingreso al Foro</h1>
 <div class="header agile">
 	<div class="wrap">
 		<div class="login-main wthree">
 			<div class="login">
 			<h3>Iniciar sesión</h3>
 			<form action="#" method="post">
-				<input type="text" placeholder="Usuario" required="" name="username" required>
+				<input type="text" placeholder="Usuario" required="" name="userName" required>
 				<input type="password" placeholder="Contraseña" name="password" required>
 				<input name="submit" type="submit" value="Ingresar">
 			</form>
 			
-            <?php if(!empty($error)):?>
+            <?php if(isset($error)):?>
                 <span><?php echo $error; ?></span>
-		<?php endif;?>
-			
-			
+			<?php endif;?>
+				
 		</div>
 	</div>
 </div>
 <!--header end here-->
 <!--copy rights end here-->
 <div class="copy-rights w3l">		 	
-	<p>© <?php echo date("Y");?> Seguridad en Desarrollo de Software | XSS </p>		 	
+	<p>© <?php echo date("Y");?> TP Seguridad en Desarrollo de Software | XSS </p>		 	
 </div>
 <!--copyrights start here-->
  
