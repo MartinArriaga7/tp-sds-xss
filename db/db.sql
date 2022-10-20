@@ -22,3 +22,4 @@ CREATE TABLE IF NOT EXISTS comment (
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 INSERT INTO user (userName, `password`) VALUES ('sds', 'sds');
+INSERT INTO user (userName, `password`) VALUES ('Valen', '123');

@@ -250,11 +250,16 @@ h1 {
 
 h2 {
     font-size: 1em;
-    color: #000;
+    color: rgb(255, 255, 255);
     text-align: center;
     margin: 1.5em 0em 1em 0em;
     font-weight: bolder;
 }
+
+a {
+    color: #ce3838;
+}
+
 
 .login-main {
     width: 35%;
@@ -364,6 +369,7 @@ h2 {
     cursor: pointer;
 }
 
+
 input[type="submit"] {
     font-size: 1em;
     color: #fff;
@@ -373,7 +379,7 @@ input[type="submit"] {
     display: block;
     padding: 0.7em 1em;
     text-align: center;
-    margin: 1.5em auto;
+
     border-radius: 3px;
     transition: 0.5s all;
     -webkit-border-radius: 3px;
@@ -398,6 +404,10 @@ input[type="submit"] {
 .login {
     padding: 2em 2em;
     text-align: center;
+}
+
+.texto {
+    color: #fff;
 }
 
 /*--copy right start here--*/

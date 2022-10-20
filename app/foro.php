@@ -17,6 +17,30 @@ if(isset($_SESSION["userId"])){
 	exit;
 }
 $mensaje = "";
+if(isset($_POST['btnEnviar'])){
+	if(isset($_POST["txtComentario"]) && !empty($_POST["txtComentario"])){
+		global $connection;
+        $comment= $_POST["txtComentario"];
+		// $comment = str_replace("<","&lt", $_POST["txtComentario"]);
+        // $comment = str_replace(">","&gt", $comment);	
+		$insercion = "INSERT INTO comment (comment, idUsuario) VALUES ('{$comment}',{$_SESSION["userId"]})";
+		if ($connection->query($insercion)) {
+			$mensaje = "Comentario cargado";
+		}else{
+			
+			$mensaje = "Error al tratar de cargar comentario: ".$connection->error;
+		}
+	}
+}
+$consulta = "SELECT userName as nombre_usuario, comment FROM comment c INNER JOIN  user u ON c.idUsuario = u.id";
+$conjunto_resultados = $connection->query($consulta);
+$resultados = array();
+if ($conjunto_resultados !== false) {
+	for ($i = 0; $i < $conjunto_resultados->num_rows; $i++) {
+		$resultados[] = $conjunto_resultados->fetch_assoc();
+	}
+}
+$comentarios = $resultados;
 
 ?>
 
@@ -37,67 +61,71 @@ $mensaje = "";
     <div class="row form-group">
         <div class="col" >
             <?php if(isset($nombre_usuario)):?>
-                <div>
-                    Usuario logueado: <span id="nombre_usuario"><?php echo $nombre_usuario;?></span>
-                    <a href="cerrar_sesion.php">[cerrar sesi&oacuten]</a>
+                <div class="texto">
+                    Usuario logueado: <?php echo $nombre_usuario;?>
+                    <a href="cerrar_sesion.php" color="red">[cerrar sesi&oacuten]</a>
                 </div>
 		    <?php endif;?>
         
             <div class="d-flex align-items-center p-4 my-3 text-white bg-warning rounded shadow-sm">  
-            
-            
                     <h1>Foro SDS</h1>
             </div>
         </div>
     </div>
+    <form method="post" action="foro.php">
     
-    <div class="row form-group">
-        <div class="col">
-            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Ingrese su comentario..." rows="5"></textarea>
+        <div class="container">
+            <div class="row form-group">
+                <div class="col">
+                    <textarea name="txtComentario" class="form-control" id="exampleFormControlTextarea1" placeholder="Ingrese su comentario..." rows="5"></textarea>
+                </div>
+            
+            </div>
+            
+            <div class="row justify-content-between">
+
+                <div class="col-4">
+                    <?php if(!empty($mensaje)):?>
+                        <span><?php echo $mensaje;?></span>
+                    <?php endif;?>
+                </div>
+                <div class="col-2">
+                    <input id="btnEnviar" name="btnEnviar" type="submit">
+                <div>
+            </div>
         </div>
-    </div>
-    <div clas="row form-group">
-        <div class="col d-flex justify-content-end">
-            <button type="button" class="btn btn-primary">Enviar</button>
-        <div>
-    </div>
+    </form>
 </div>
+
+
 <div class="main-body p-0">
-    <div class="inner-wrapper row justify-content-end">
-    
-    
-    
-    
-    
 
-    </div>
+<?php if(isset($comentarios) && !empty($comentarios)):?>
+    <br/>
+    <h2>Comentarios realizados</h2> 
+    <?php foreach($comentarios as $comentario): ?>          
    
-     
-
             <!-- Forum List -->
             <div class="inner-main-body p-2 p-sm-3 collapse forum-content show">
                 <div class="card mb-2">
                     <div class="card-body p-2 p-sm-3">
                         <div class="media forum-item">
-                            <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-circle" width="50" alt="User" /></a>
+                            <a href="#" data-toggle="collapse" data-target=".forum-content"><img src="https://i.pinimg.com/564x/c4/34/d8/c434d8c366517ca20425bdc9ad8a32de.jpg" class="mr-3 rounded-circle" width="50" alt="User" /></a>
                             <div class="media-body">
-                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body">Realtime fetching data</a></h6>
+                                <h6><a href="#" data-toggle="collapse" data-target=".forum-content" class="text-body"><?php echo $comentario["nombre_usuario"]; ?></a></h6>
                                 <p class="text-secondary">
-                                    lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet
+                                <?php echo $comentario["comment"]; ?>
                                 </p>
-                                <p class="text-muted"><a href="javascript:void(0)">drewdan</a> replied <span class="text-secondary font-weight-bold">13 minutes ago</span></p>
-                            </div>
-                            <div class="text-muted small text-center align-self-center">
-                                <span class="d-none d-sm-inline-block"><i class="far fa-eye"></i> 19</span>
-                                <span><i class="far fa-comment ml-2"></i> 3</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-        </div>
+            </div>
+    <?php endforeach; ?>
+    <?php endif; ?>
                             
-    </div>
+</div>
 
    
 
