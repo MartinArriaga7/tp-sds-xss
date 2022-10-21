@@ -3,6 +3,7 @@
 require_once("common.php");
 
 $user_name = "";
+$error=false;
 if(isset($_SESSION["userId"])){
 	$query = "SELECT userName FROM user WHERE id = {$_SESSION["userId"]}";
 	$result_set = $connection->query($query);
@@ -17,18 +18,21 @@ if(isset($_SESSION["userId"])){
 	exit;
 }
 $message = "";
-if(isset($_POST['btnEnviar'])){
-	if(isset($_POST["txtComentario"]) && !empty($_POST["txtComentario"])){
+if(isset($_POST['btnSend'])){
+	if(isset($_POST["txtComment"]) && !empty($_POST["txtComment"])){
 		global $connection;
-        $comment= $_POST["txtComentario"];
-		// $comment = str_replace("<","&lt", $_POST["txtComentario"]);
+        $comment= $_POST["txtComment"];
+		// $comment = str_replace("<","&lt", $_POST["txtComment"]);
         // $comment = str_replace(">","&gt", $comment);	
 		$insercion = "INSERT INTO comment (comment, idUsuario) VALUES ('{$comment}',{$_SESSION["userId"]})";
 		if ($connection->query($insercion)) {
 			$message = "Comentario cargado";
+            
+            
 		}else{
 			
-			$message = "Error al tratar de cargar comment: ".$connection->error;
+			$message = "Error al tratar de cargar comentario: ".$connection->error;
+            $error = true;
 		}
 	}
 }
@@ -58,55 +62,62 @@ $comments = $result;
     
 <div class="container">
         
-    <div class="row form-group">
-        <div class="col" >
+    <div class="row">
+        <div class="col d-flex justify-content-center">
             <?php if(isset($user_name)):?>
                 <div class="texto">
-                    Usuario logueado: <?php echo $user_name;?>
+                    Bienvenido <?php echo $user_name;?>
                     &nbsp;&nbsp;
                     <a href="cerrar_sesion.php" color="red">[cerrar sesi&oacuten]</a>
                 </div>
-		    <?php endif;?>
-        
-            <div class="d-flex align-items-center p-4 my-3 text-white bg-warning rounded shadow-sm">  
-                    <h1>Foro SDS</h1>
-            </div>
+		    <?php endif;?> 
         </div>
     </div>
+
+    <div class="row">
+        <div class=" col d-flex align-items-center p-4 my-3 text-white bg-warning rounded shadow-sm">  
+            <h1>Foro SDS</h1>
+        </div>
+
+    </div>
+
     <form method="post" action="foro.php">
-    
         <div class="container">
+
             <div class="row form-group">
                 <div class="col">
-                    <textarea name="txtComentario" class="form-control" id="exampleFormControlTextarea1" placeholder="Ingrese su comment..." rows="5"></textarea>
+                    <textarea name="txtComment" class="form-control" id="exampleFormControlTextarea1" placeholder="Ingrese su comentario..." rows="5"></textarea>
                 </div>
             
             </div>
             
             <div class="row justify-content-between">
-
                 <div class="col-4">
+                
                     <?php if(!empty($message)):?>
-                        <span><?php echo $message;?></span>
+                        
+                            <span ><?php echo $message;?></span>
+                        
+                       
                     <?php endif;?>
                 </div>
                 <div class="col-2">
-                    <input id="btnEnviar" name="btnEnviar" type="submit">
+                    <input id="btnSend" name="btnSend" type="submit">
                 <div>
             </div>
+
         </div>
     </form>
 </div>
 
 
-<div class="main-body p-0">
+<div>
 
-<?php if(isset($comments) && !empty($comments)):?>
-    <br/>
-    <h2>Comentarios realizados</h2> 
-    <?php foreach($comments as $comment): ?>          
-   
-            <!-- Forum List -->
+    <?php if(isset($comments) && !empty($comments)):?>
+        <br/>
+        <h2>Comentarios realizados</h2>
+        <hr/>
+        <?php foreach($comments as $comment): ?>          
             <div class="inner-main-body p-2 p-sm-3 collapse forum-content show">
                 <div class="card mb-2">
                     <div class="card-body p-2 p-sm-3">
@@ -115,7 +126,7 @@ $comments = $result;
                             <div class="media-body">
                                 <h6><?php echo $comment["user_name"]; ?></h6>
                                 <p class="text-secondary">
-                                <?php echo $comment["comment"]; ?>
+                                    <?php echo $comment["comment"]; ?>
                                 </p>
                             </div>
                         </div>
@@ -123,7 +134,7 @@ $comments = $result;
                 </div>
                 
             </div>
-    <?php endforeach; ?>
+        <?php endforeach; ?>
     <?php endif; ?>
                             
 </div>

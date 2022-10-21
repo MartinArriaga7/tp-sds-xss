@@ -4,7 +4,7 @@ require_once("common.php");
 
 global $connection;
 $error = "";
-if(isset($_POST['submit'])){
+if(isset($_POST['btnLogin'])){
 	$userName = htmlspecialchars(strip_tags($_POST['userName']));
 	$password = htmlspecialchars(strip_tags($_POST['password']));
 	$loginResult = verifyLogin($userName, $password, $connection);
@@ -55,7 +55,7 @@ function verifyLogin(string $username, string $password, mysqli $connection): in
 			<form action="#" method="post">
 				<input type="text" placeholder="Usuario" required="" name="userName" required>
 				<input type="password" placeholder="Contraseña" name="password" required>
-				<input name="submit" type="submit" value="Ingresar">
+				<input name="btnLogin" type="submit" value="Ingresar">
 			</form>
 			
             <?php if(isset($error)):?>

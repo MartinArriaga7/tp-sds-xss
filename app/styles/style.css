@@ -240,6 +240,10 @@ a:hover {
     -o-transition: 0.5s all;
 }
 
+hr {
+    background-color: #fff;
+}
+
 /*--header start here--*/
 h1 {
     font-size: 3em;
@@ -580,7 +584,7 @@ input[type="submit"] {
 }
 
 span {
-    color: red
+    color: red;
 }
 
 /*-- agileits --*/
