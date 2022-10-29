@@ -1,7 +1,7 @@
 <?php 
 require_once("common.php");
 
-if(isset($_SESSION["id_usuario"])==true){
+if(isset($_SESSION["userId"]) === true){
 	session_destroy();
 	$_SESSION = array();
 }
