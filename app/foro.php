@@ -31,7 +31,7 @@ if(isset($_POST["btnSend"]) && isset($_POST["txtComment"]) && !empty($_POST["txt
         $message = "Error al tratar de cargar comentario: ".$connection->error;
         $error = true;
     }
-} else {
+} else if (isset($_POST["btnSend"])) {
     $message = "No puedes insertar comentarios vacios...";
 }
 
