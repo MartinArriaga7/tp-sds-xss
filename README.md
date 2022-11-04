@@ -30,6 +30,8 @@ En esta oportunidad se implementara una de las soluciones para hacer frente a es
 
 Vector de ataque: 
 Me encanto la materia. El curso K3 super recomendable.
-<script>
-document.querySelector("#ataque").innerHTML= "<h1 style='color:red;'>Puntos extra para SDS!!</h1><p>Ingresa al siguiente sitio para obtenr puntos extra en la materia: <a href=''>pagina malisiosa</a></p>"             
-</script>
+<p>
+(&lt;)script(&gt;)
+document.querySelector("#ataque").innerHTML= "(&lt;)h1(&gt;)Puntos extra para SDS!!(&lt;)/h1(&gt;)(&lt;)p(&gt;)Ingresa al siguiente sitio para obtener puntos extra en la materia: (&lt;)a href=' '(&gt;)pagina maliciosa(&lt;)/a(&gt;)(&lt;)/p(&gt;)"             
+(&lt;)/script(&gt;)"
+</p>
