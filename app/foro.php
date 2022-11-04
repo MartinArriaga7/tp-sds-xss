@@ -27,6 +27,7 @@ if(isset($_POST["btnSend"]) && isset($_POST["txtComment"]) && !empty($_POST["txt
     $insercion = "INSERT INTO comment (comment, idUsuario) VALUES ('{$comment}',{$_SESSION["userId"]})";
     if ($connection->query($insercion)) {
         $message = "Comentario cargado";
+        
     } else {
         $message = "Error al tratar de cargar comentario: ".$connection->error;
         $error = true;
@@ -97,6 +98,9 @@ $comments = $result;
                     </div>
                 </div>
             </form>
+        </div>
+        <div id="ataque">
+
         </div>
 
         <div>
