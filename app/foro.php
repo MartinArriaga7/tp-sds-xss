@@ -7,8 +7,10 @@ $error=false;
 $userId = "";
 if(isset($_SESSION["userId"])){
     $userId = $_SESSION["userId"];
-	$query = "SELECT userName FROM user WHERE id = {$userId}";
-	$result_set = $connection->query($query);
+    $sentence = $connection->prepare("SELECT userName FROM user WHERE id = (?)");
+    $sentence->bind_param("s", $userId);
+    $sentence->execute();
+    $result_set = $sentence->get_result();
     $result = $result_set->fetch_assoc();
 	if(isset($result) && !empty($result)){
 		$userName = $result["userName"];
@@ -29,14 +31,14 @@ if(isset($_POST["btnSend"]) && isset($_POST["txtComment"]) && !empty($_POST["txt
         $message = "Comentario cargado";
         
     } else {
-        $message = "Error al tratar de cargar comentario: ".$connection->error;
+        $message = "Error al tratar de cargar comentario: " . $connection->error;
         $error = true;
     }
 } else if (isset($_POST["btnSend"])) {
     $message = "No puedes insertar comentarios vacios...";
 }
 
-$query = "SELECT userName as userName, comment FROM comment JOIN  user ON comment.idUsuario = user.id";
+$query = "SELECT userName, comment FROM comment JOIN user ON comment.idUsuario = user.id";
 $result_set = $connection->query($query);
 $result = array();
 if ($result_set !== false) {
@@ -71,11 +73,10 @@ $comments = $result;
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" id="title">
                 <div class="col d-flex align-items-center p-4 my-3 text-white bg-warning rounded shadow-sm">
                     <h1>Foro - Seguridad en el Desarrollo de Software</h1>
                 </div>
-
             </div>
 
             <form method="post" action="foro.php">
@@ -98,9 +99,6 @@ $comments = $result;
                     </div>
                 </div>
             </form>
-        </div>
-        <div id="ataque">
-
         </div>
 
         <div>
