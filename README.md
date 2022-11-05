@@ -32,6 +32,10 @@ Vector de ataque:
 ```
 Me encanto la materia. El curso K3 super recomendable.
 <script>
-document.querySelector("#ataque").innerHTML= "<h1>Puntos extra para SDS!!</h1><p>Ingresa al siguiente sitio para obtenr puntos extra en la materia: <a href=' '>pagina maliciosa</a></p>"             
+    let titleNode = document.getElementById("title");
+    let badDiv = document.createElement("div");
+    badDiv.style = "background-color: grey; border-radius: 10px; margin: 15px; text-align: center; vertical-align: middle; width: 300px; margin-top:100px;margin-bottom:100px; font-size:20px;"
+    badDiv.innerHTML = "<h2>Puntos extra para SDS!!Ingresa al siguiente sitio para obtener puntos extra en la materia: <a href=maliciosa.php>pagina maliciosa</a></h2>";
+    titleNode.appendChild(badDiv);
 </script>
 ```
