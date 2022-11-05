@@ -10,8 +10,8 @@ if(isset($_SESSION["userId"])){
 	$query = "SELECT userName FROM user WHERE id = {$userId}";
 	$result_set = $connection->query($query);
     $result = $result_set->fetch_assoc();
-	if(isset($result[0]) && !empty($result[0])){
-		$userName = $result[0]["userName"];
+	if(isset($result) && !empty($result)){
+		$userName = $result["userName"];
 	}
 }else{
 	header("Location: index.php");
