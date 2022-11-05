@@ -24,9 +24,8 @@ $message = "";
 if(isset($_POST["btnSend"]) && isset($_POST["txtComment"]) && !empty($_POST["txtComment"])){
     global $connection;
     $comment = $_POST["txtComment"];
-    // $comment = str_replace("<","&lt", $_POST["txtComment"]);
-    // $comment = str_replace(">","&gt", $comment);
-    $insercion = "INSERT INTO comment (comment, idUsuario) VALUES ('{$comment}',{$_SESSION["userId"]})";
+    $commentCod = htmlspecialchars($comment, ENT_QUOTES);
+    $insercion = "INSERT INTO comment (comment, idUsuario) VALUES ('{$commentCod}',{$_SESSION["userId"]})";
     if ($connection->query($insercion)) {
         $message = "Comentario cargado";
         
